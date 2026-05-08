@@ -263,13 +263,26 @@ SELECT a.no, a.empno, a.price, b.name, b.job, c.dname FROM Sale AS a
     WHERE price > 100000 ORDER BY price DESC;
 
 # 실습 4-14
+SELECT * FROM Sale AS a LEFT JOIN Employee AS b ON a.empno = b.empno;
+SELECT * FROM Sale AS a RIGHT JOIN Employee AS b ON a.empno = b.empno;
 
+SELECT a.no, a.empno, price, name, job FROM Sale AS a LEFT JOIN Employee AS b USING(empno);
+SELECT a.no, a.empno, price, name, job FROM Sale AS a RIGHT JOIN Employee AS b USING(empno);
 
 # 실습 4-15
-
+SELECT a.empno, a.name, a.job, b.dname FROM Employee AS a INNER JOIN Dept AS b ON a.depno = b.depno;
 
 # 실습 4-16
-
+SELECT a.empno, b.name, a.year, SUM(a.price) FROM Sale AS a 
+	INNER JOIN Employee AS b ON a.empno = b.empno 
+    WHERE a.year = 2019 AND b.name = '김유신' 
+    GROUP BY a.empno;
+    
 
 # 실습 4-17
-
+SELECT b.name, c.dname, b.job, a.year, SUM(a.price) AS 매출합계 FROM Sale AS a
+	JOIN Employee AS b ON a.empno = b.empno
+    JOIN Dept AS c ON b.depno = c.depno
+    WHERE a.year = 2019 AND a.price >= 50000
+    GROUP BY b.empno HAVING 매출합계 >= 100000
+    ORDER BY 매출합계 DESC;
